@@ -87,18 +87,18 @@
     }
   },
   "variables": {
-    "defaultSqlServerName": "[concat('contososerv', uniqueString(resourceGroup().id))]",
+    "defaultSqlServerName": "[concat('clinicoserv', uniqueString(resourceGroup().id))]",
     "defaultSqlDatabaseName": "Clinic",
     "defaultSqlDatabaseCollation": "SQL_Latin1_General_CP1_CI_AS",
     "defaultSqlDatabaseEdition": "Standard",
     "defaultSqlDatabaseSLO": "S1",
     "defaultSqlDatabaseMaxSizeBytes": "1073741824",
-    "defaultStorageAccountName": "[concat('contosostor', uniqueString(resourceGroup().id))]",
+    "defaultStorageAccountName": "[concat('clinicstor', uniqueString(resourceGroup().id))]",
     "defaultStorageAccountType": "Standard_LRS",
-    "defaultAppServicePlanName": "[concat('contosoplan', uniqueString(resourceGroup().id))]",
-    "defaultAppServicePlanSku": "Basic",
+    "defaultAppServicePlanName": "[concat('clinicplan', uniqueString(resourceGroup().id))]",
+    "defaultAppServicePlanSku": "Free",
     "defaultAppServicePlanWorkerSize": "0",
-    "defaultKeyVaultName": "[concat('contosoakv', uniqueString(resourceGroup().id))]",
+    "defaultKeyVaultName": "[concat('clinicakv', uniqueString(resourceGroup().id))]",
     "skuName": "Standard",
     "enableVaultForVolumeEncryption": false,
     "enableVaultForDeployment": false,
@@ -251,7 +251,7 @@
       },
       "properties": {
         "name": "[parameters('siteName')]",
-        "serverFarmId": "[variables('defaultAppServicePlanName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('defaultAppServicePlanName'))]",
         "siteConfig": {
           "AlwaysOn": true
         }
@@ -291,6 +291,7 @@
           "apiVersion": "2015-04-01",
           "name": "web",
           "type": "sourcecontrols",
+          "location": "[parameters('location')]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', parameters('siteName'))]",
             "[concat('Microsoft.Web/sites/', parameters('siteName'), '/config/connectionstrings')]",
